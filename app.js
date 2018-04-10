@@ -5,20 +5,16 @@ const bpo = { extended: true, limit:1000 }
 
 app.use( bodyParser.urlencoded(bpo) )
 
-app.get( '/', (req, res) => res.send(`
+app.get( '/', (req, res) => {
+  t = [5,3,4,2,8,1,4,2]
+  //t.sort()
 
-       <form method="post">
-         <input name="a" />
-         <input name="b" />
-         <button>Küld</button>
-       </form>
-`) )
+  t.forEach
 
-app.post( '/', (req, res) => {
-  var a = parseInt(req.body.a)
-  var b = parseInt(req.body.b)
-  res.send(`${ a*b/lnko(a, b) }`)
-} )
+  s = "<table border='1'><tr>"
+  t.forEach(v => s+=`<td>${ v }</td>`)
+  res.send(`${ s }</tr></table>`)
+})
 
 lnko = (a ,  b) =>
         a == b
