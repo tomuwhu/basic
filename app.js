@@ -1,26 +1,35 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
-const bpo = { extended: true, limit:1000 }
-
+const bpo = { extended: true, limit:300000 }
 app.use( bodyParser.urlencoded(bpo) )
 
-app.get( '/', (req, res) => {
-  t = [5,3,4,2,8,1,4,2]
-  //t.sort()
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/animals');
 
-  t.forEach
-
-  s = "<table border='1'><tr>"
-  t.forEach(v => s+=`<td>${ v }</td>`)
-  res.send(`${ s }</tr></table>`)
+const Mammals = mongoose.model('mammal', {
+  name: { type: String, trim: true }
 })
 
-lnko = (a ,  b) =>
-        a == b
-        ?    a
-        :    a < b
-             ? lnko ( a  , b-a )
-             : lnko ( a-b, a   )
+app.get( '/', (req, res) => {
+  s = `
+    <form method="post">
+      <input name="name" placeholder="Állat neve"/>
+      <button>Felvesz</button>
+    </form>
+  `
+  Mammals.find().sort({name:1}).then( arr => {
+      s += `<table>`
+      arr.forEach( v =>
+         s+=`<tr><td>${v.name}</td></tr>`
+      )
+      s+= `</table>`
+      res.send(s)
+  })
+})
+
+app.post( '/', (req, res) => {
+
+})
 
 app.listen(3000)
