@@ -32,10 +32,7 @@ app.get( '/', allatok )
 
 app.post( '/', (req, res) => {
     const ujallat = new Mammals(req.body);
-    ujallat.save().then(() => {
-        console.log(req.body)
-        allatok(req, res)
-  })
+    ujallat.save().then( () => allatok(req, res) )
 })
 
 app.listen(3000)
