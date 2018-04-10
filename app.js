@@ -11,7 +11,7 @@ const Mammals = mongoose.model('mammal', {
   name: { type: String, trim: true }
 })
 
-app.get( '/', (req, res) => {
+function allatok(req,res) {
   s = `
     <form method="post">
       <input name="name" placeholder="Állat neve"/>
@@ -26,10 +26,16 @@ app.get( '/', (req, res) => {
       s+= `</table>`
       res.send(s)
   })
-})
+}
+
+app.get( '/', allatok )
 
 app.post( '/', (req, res) => {
-
+    const ujallat = new Mammals(req.body);
+    ujallat.save().then(() => {
+        console.log(req.body)
+        allatok(req, res)
+  })
 })
 
 app.listen(3000)
