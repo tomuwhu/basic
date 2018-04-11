@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/animals');
 
 const Mammals = mongoose.model('mammal', {
-  name: { type: String, trim: true }
+    name: { type: String, trim: true }
 })
 
 function allatok(req,res) {
@@ -18,8 +18,11 @@ function allatok(req,res) {
       <button>Felvesz</button>
     </form>
   `
-  Mammals.find().sort({name:1}).then( arr => {
+  //kezdet= 'á', p = new RegExp(`^${kezdet}.*$`,`i`)
+  p = new RegExp(`.*`)
+  Mammals.find({name: p}).then( arr => {
       s += `<table>`
+      //arr.sort( (a,b) => a.name.localeCompare(b.name) )
       arr.forEach( v =>
          s+=`<tr><td>${v.name}</td></tr>`
       )
