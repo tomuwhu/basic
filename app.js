@@ -30,15 +30,9 @@ function allatok(req,res) {
     <input name="name" placeholder="Állat neve"/>
     <button>Felvesz</button>
   </form>
-
   <table>${
-    arr.map(
-        animal =>`
-     <tr>
-       <td>
-         ${ animal.name }
-       </td>
-     </tr>`).join('')
+    arr.map( animal =>`
+     <tr><td>${ animal.name }</td></tr>`).join('')
   }
   </table>
 </body>
