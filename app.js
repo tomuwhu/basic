@@ -12,23 +12,24 @@ const Mammals = mongoose.model('mammal', {
 })
 
 function allatok(req,res) {
-  s = `
-    <form method="post">
-      <input name="name" placeholder="Állat neve"/>
-      <button>Felvesz</button>
-    </form>
-  `
-  //kezdet= 'á', p = new RegExp(`^${kezdet}.*$`,`i`)
-  p = new RegExp(`.*`)
-  Mammals.find({name: p}).then( arr => {
-      s += `<table>`
-      //arr.sort( (a,b) => a.name.localeCompare(b.name) )
-      arr.forEach( v =>
-         s+=`<tr><td>${v.name}</td></tr>`
-      )
-      s+= `</table>`
-      res.send(s)
-  })
+  p = /.*/i
+  Mammals
+    .find(
+      {name: p}
+    )
+    .then( 
+    arr => res.send(`
+        <form method="post">
+          <input name="name" placeholder="Állat neve"/>
+          <button>Felvesz</button>
+        </form>
+        <table>${
+          arr.map( v =>
+             `<tr><td>${v.name}</td></tr>`
+          ).join('')
+        }</table>
+    `)
+  )
 }
 
 app.get( '/', allatok )
