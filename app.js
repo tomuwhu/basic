@@ -17,19 +17,33 @@ function allatok(req,res) {
     .find(
       {name: p}
     )
-    .then( 
-    arr => res.send(`
-        <form method="post">
-          <input name="name" placeholder="Állat neve"/>
-          <button>Felvesz</button>
-        </form>
-        <table>${
-          arr.map( v =>
-             `<tr><td>${v.name}</td></tr>`
-          ).join('')
-        }</table>
-    `)
-  )
+    .then(arr => {
+      arr.sort(
+        (a,b) =>
+         - b.name.localeCompare( a.name )
+      )
+      res.send(`
+<html>
+<meta charset="utf-8">
+<body>
+  <form method="post">
+    <input name="name" placeholder="Állat neve"/>
+    <button>Felvesz</button>
+  </form>
+
+  <table>${
+    arr.map(
+        animal =>`
+     <tr>
+       <td>
+         ${ animal.name }
+       </td>
+     </tr>`).join('')
+  }
+  </table>
+</body>
+      `)
+    })
 }
 
 app.get( '/', allatok )
